@@ -2,27 +2,33 @@
  * Created by omar on 30/01/15.
  */
 
-function kmpAlgo (needle, haystack) {
+module.exports = function(needle, haystack) {
+  this._needle = needle
+  this._haystack = haystack
 
-    kmpTable = (function createKmpTable() {
-        nextCandidateIndex = 0
-        kmpTableInTheMake = [0, 0]
-        for (i = 2; i < needle.length; i++)
-            kmpTableInTheMake[i] = needle.charAt(i - 1) === needle.charAt(nextCandidateIndex) ? ++nextCandidateIndex : (nextCandidateIndex = 0);
-        return kmpTableInTheMake
-    })()
+  this._kmpTable = function () {
+    var nextCandidateIndex = 0
+    var kmpTableInTheMake = [0, 0]
 
-    currentMatchStart = 0
-    currentMatchLength = 0
+    for (i = 2; i < _needle.length; i++)
+      kmpTableInTheMake[i] =
+            _needle.charAt(i - 1) == _needle.charAt(nextCandidateIndex) ?
+            ++nextCandidateIndex : (nextCandidateIndex = 0);
+      return kmpTableInTheMake
+  }()
 
-    while (haystack > currentMatchStart + currentMatchLength) {
-        if (needle[i] === haystack[m + i]) {
-            ++i;
-            if (i === needle.length) return m + 1
-        } else
-            if (i === 0) ++m
-            else m = m + i - (i = kmpTable[i])
-    }
+  return function () {
+    m = 0 // current match start
+    i = 0 // current match length
+
+    while (m + i < _haystack.length)
+      if (_needle[i] == _haystack[m + i]) {
+        ++i;
+        if (i == _needle.length) return m + 1
+      } else
+        if (i == 0) ++m
+        else m = m + i - (i = _kmpTable[i])
+
     return -1
-
+  }
 }

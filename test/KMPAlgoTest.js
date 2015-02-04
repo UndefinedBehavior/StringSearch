@@ -4,10 +4,9 @@
 
 var assert = require("assert")
 
-var algo = require("../main/KMPAlgo")
+var matcher = require("../main/KMPAlgo")("b", "abc")
 
 it('simplest case', function(){
-    var match = kmpAlgo("b", "abc")
-    assert.equal(2, match);
+  assert.equal(2, matcher());
 })
 
