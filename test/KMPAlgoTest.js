@@ -3,28 +3,31 @@
  */
 
 var assert = require("assert")
+var KMPAlgo = require("../main/KMPAlgo")
 
-var matcher = require("../main/KMPAlgo")("b", "abc")
-
-it('simplest case one match', function(){
-  assert.equal(2, matcher());
-  assert.equal(-1, matcher());
+it ('simplest case one match', function(){
+  var algo = new KMPAlgo.algo("b", "abc")
+  assert.equal(2, algo.search())
+  assert.equal(-1, algo.search())
 })
 
 it('"extreme" case', function(){
-  var matcher = require("../main/KMPAlgo")("aa", "aaaaababaabaa")
-  assert.equal(1, matcher());
-  assert.equal(2, matcher());
-  assert.equal(3, matcher());
-  assert.equal(4, matcher());
-  assert.equal(9, matcher());
-  assert.equal(12, matcher());
+  var algo = new KMPAlgo.algo("aa", "aaaaababaabaa")
+  assert.equal(1, algo.search())
+  assert.equal(2, algo.search())
+  assert.equal(3, algo.search())
+  assert.equal(4, algo.search())
+  assert.equal(9, algo.search())
+  assert.equal(12, algo.search())
+  assert.equal(-1, algo.search())
 })
 
-it('2 searches mixing: ERROR!', function(){
-  var matcher1 = require("../main/KMPAlgo")("hi", "xxhihixxxhix")
-  assert.equal(3, matcher1());
-  var matcher2 = require("../main/KMPAlgo")("hello", "xxxhelloxxhellox")
-  assert.equal(4, matcher1()); // it should be 5!
+it('2 searches mixing', function(){
+  var algo1 = new KMPAlgo.algo("hi", "xxhihixxxhix")
+  assert.equal(3, algo1.search())
+  var algo2 = new KMPAlgo.algo("hello", "xxxhelloxxhellox")
+  assert.equal(5, algo1.search())
+  assert.equal(4, algo2.search())
+  assert.equal(10, algo1.search());
 })
 
